@@ -25,12 +25,20 @@ class BackgroundLocation {
   static Future<dynamic> startLocationService({
     double distanceFilter = 0.0,
     bool forceAndroidLocationManager = false,
+    // on iOS:
+    // 0 - kCLLocationAccuracyBest
+    // 1 - kCLLocationAccuracyNearestTenMeters
+    // 2 - kCLLocationAccuracyHundredMeters
+    // 3 - kCLLocationAccuracyReduced
+    // TODO: use enum
+    priority = 0,
   }) async =>
       _channel.invokeMethod(
         'start_location_service',
         <String, Object>{
           'distance_filter': distanceFilter,
-          'force_location_manager': forceAndroidLocationManager
+          'force_location_manager': forceAndroidLocationManager,
+          'priority': priority,
         },
       );
 
