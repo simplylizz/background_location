@@ -33,11 +33,8 @@ public class SwiftBackgroundLocationPlugin: NSObject, FlutterPlugin, CLLocationM
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        SwiftBackgroundLocationPlugin.channel?.invokeMethod("location", arguments: "method")
-
         if (call.method == "start_location_service") {
             initLocationManager()
-            SwiftBackgroundLocationPlugin.channel?.invokeMethod("location", arguments: "start_location_service")
 
             let args = call.arguments as? Dictionary<String, Any>
             let distanceFilter = args?["distance_filter"] as? Double
@@ -70,13 +67,13 @@ public class SwiftBackgroundLocationPlugin: NSObject, FlutterPlugin, CLLocationM
         } else if (call.method == "stop_location_service") {
             initLocationManager()
             running = false
-            SwiftBackgroundLocationPlugin.channel?.invokeMethod("location", arguments: "stop_location_service")
             SwiftBackgroundLocationPlugin.locationManager?.stopUpdatingLocation()
             result(true)
         }
     }
 
     public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        // FIXME: wut? looks useless
         if status == .authorizedAlways {
 
         }
